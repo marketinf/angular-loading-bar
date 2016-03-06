@@ -1,4 +1,4 @@
-/*! 
+/*!
  * angular-loading-bar v0.8.0
  * https://chieffancypants.github.io/angular-loading-bar
  * Copyright (c) 2015 Wes Cruver
@@ -171,6 +171,7 @@ angular.module('cfp.loadingBar', [])
     this.includeBar = true;
     this.latencyThreshold = 100;
     this.startSize = 0.02;
+    this.incrementDuration = 250;
     this.parentSelector = 'body';
     this.spinnerTemplate = '<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>';
     this.loadingBarTemplate = '<div id="loading-bar"><div class="bar"><div class="peg"></div></div></div>';
@@ -191,6 +192,7 @@ angular.module('cfp.loadingBar', [])
       var includeSpinner = this.includeSpinner;
       var includeBar = this.includeBar;
       var startSize = this.startSize;
+      var incrementDuration = this.incrementDuration;
 
       /**
        * Inserts the loading bar element into the dom, and sets it to 2%
@@ -211,12 +213,15 @@ angular.module('cfp.loadingBar', [])
         $rootScope.$broadcast('cfpLoadingBar:started');
         started = true;
 
+        var $children = $parent.children();
+
         if (includeBar) {
-          $animate.enter(loadingBarContainer, $parent, angular.element($parent[0].lastChild));
+
+          $animate.enter(loadingBarContainer, $parent, $children.length > 0 ? $children[$children.length - 1] : null);
         }
 
         if (includeSpinner) {
-          $animate.enter(spinner, $parent, angular.element($parent[0].lastChild));
+          $animate.enter(spinner, $parent, $children.length > 0 ? $children[$children.length - 1] : null);
         }
 
         _set(startSize);
@@ -242,7 +247,7 @@ angular.module('cfp.loadingBar', [])
           $timeout.cancel(incTimeout);
           incTimeout = $timeout(function() {
             _inc();
-          }, 250);
+          }, incrementDuration);
         }
       }
 
@@ -311,16 +316,17 @@ angular.module('cfp.loadingBar', [])
       }
 
       return {
-        start            : _start,
-        set              : _set,
-        status           : _status,
-        inc              : _inc,
-        complete         : _complete,
-        autoIncrement    : this.autoIncrement,
-        includeSpinner   : this.includeSpinner,
-        latencyThreshold : this.latencyThreshold,
-        parentSelector   : this.parentSelector,
-        startSize        : this.startSize
+        start             : _start,
+        set               : _set,
+        status            : _status,
+        inc               : _inc,
+        complete          : _complete,
+        autoIncrement     : this.autoIncrement,
+        incrementDuration : this.incrementDuration,
+        includeSpinner    : this.includeSpinner,
+        latencyThreshold  : this.latencyThreshold,
+        parentSelector    : this.parentSelector,
+        startSize         : this.startSize
       };
 
 
