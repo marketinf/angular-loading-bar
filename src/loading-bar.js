@@ -259,15 +259,12 @@ angular.module('cfp.loadingBar', [])
         // TODO: do this mathmatically instead of through conditions
 
         var stat = _status();
-        if (stat >= 0 && stat < 0.25) {
+        if (stat >= 0 && stat < 0.75) {
           // Start out between 3 - 6% increments
-          rnd = (Math.random() * (5 - 3 + 1) + 3) / 100;
-        } else if (stat >= 0.25 && stat < 0.65) {
-          // increment between 0 - 3%
-          rnd = (Math.random() * 3) / 100;
-        } else if (stat >= 0.65 && stat < 0.9) {
+          rnd = (Math.random() * (10 - 5 + 1) + 5) / 100;
+        } else if (stat >= 0.75 && stat < 0.9) {
           // increment between 0 - 2%
-          rnd = (Math.random() * 2) / 100;
+          rnd = (Math.random() * 5) / 100;
         } else if (stat >= 0.9 && stat < 0.99) {
           // finally, increment it .5 %
           rnd = 0.005;
